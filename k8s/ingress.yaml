@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: djchat
+  namespace: djchat
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # WebSocket upgrade
+    nginx.org/websocket-services: "djchat"
+spec:
+  rules:
+    - host: chat.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: djchat
+                port:
+                  number: 80
+  tls:
+    - hosts: [chat.example.com]
+      secretName: djchat-tls   # create via cert-manager or manually

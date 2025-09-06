@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+.env
+
+# Django migrations (if you don’t want to track them until stable)
+*/migrations/__pycache__/
+*/migrations/*.py
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+*.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vite/React build
+frontend/dist/
+
+# Django static files (build artifacts)
+static/
+!static/.gitkeep   # if you want to keep folder structure but not files
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Python virtual env
+.venv/
+venv/
+ENV/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# macOS system files
+.DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node modules
+frontend/node_modules/
+
+# Virtual environment
+.venv/
+
+# Cookies
+cookies
+cookies.txt
+
+# Build artifacts
+static/
+dist/
+

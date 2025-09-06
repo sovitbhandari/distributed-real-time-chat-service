@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: djchat-config
+  namespace: djchat
+data:
+  DEBUG: "false"
+  ALLOWED_HOSTS: "chat.example.com"
+  CSRF_TRUSTED_ORIGINS: "https://chat.example.com"
+  # set to enable X-Forwarded-Proto handling behind ingress
+  ENABLE_SSL_HEADER: "1"

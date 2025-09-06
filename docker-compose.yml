@@ -1,0 +1,20 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  web:
+    build: .
+    environment:
+      SECRET_KEY: dev
+      DEBUG: "true"
+      ALLOWED_HOSTS: "*"
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      daphne -b 0.0.0.0 -p 8000 djchat.asgi:application
+      "

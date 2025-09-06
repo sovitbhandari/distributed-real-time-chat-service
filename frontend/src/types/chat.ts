@@ -1,0 +1,1 @@
+export type ChatMessage = { username: string; message: string; ts?: string }
