@@ -18,18 +18,30 @@ docker compose up --build
 # Open: http://localhost:8000
 ```
 
-## Manual Local Run (no Docker)
+## Manual Local Run (backend + frontend, no Docker compose)
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 export SECRET_KEY="dev"
 export ALLOWED_HOSTS="*"
 export REDIS_URL="redis://localhost:6379/0"
-# Start local redis (needs Docker):
+# Start local Redis (skip if you already have Redis on 6379):
 docker run --rm -p 6379:6379 redis:7-alpine
 python3 manage.py migrate
-python3 manage.py runserver 0.0.0.0:8000
+# Start ASGI server for WebSockets:
+daphne -b 0.0.0.0 -p 8000 djchat.asgi:application
 ```
+
+In a second terminal, run the frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+# Open: http://127.0.0.1:5173
+```
+
+The Vite dev server proxies `/api` and `/ws` to `http://127.0.0.1:8000`.
 
 ## Kubernetes (example)
 ```bash
