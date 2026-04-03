@@ -53,6 +53,15 @@ def api_create_room(request):
     room, created = Room.objects.get_or_create(pk=room_id)
     room.set_password(password)
     room.save()
+
+    # SPA clients do not hit `room()` view before opening WS, so authorize now.
+    rooms = request.session.get("rooms", {})
+    rooms[room.id] = True
+    request.session["rooms"] = rooms
+    if "username" not in request.session:
+        request.session["username"] = f"user{random.randint(1000, 9999)}"
+    request.session.modified = True
+
     return JsonResponse({
         "ok": True,
         "id": room.id,

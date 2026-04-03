@@ -14,8 +14,18 @@ export function getCookie(name: string) {
   return cookieValue
 }
 
+async function ensureCSRFToken() {
+  let token = getCookie('csrftoken') || ''
+  if (token) return token
+
+  // Prime CSRF cookie before first mutating request.
+  await fetch('/api/csrf', { credentials: 'same-origin' })
+  token = getCookie('csrftoken') || ''
+  return token
+}
+
 export async function postJSON<T>(url: string, body: unknown): Promise<T> {
-  const csrftoken = getCookie('csrftoken') || ''
+  const csrftoken = await ensureCSRFToken()
   const r = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken },
